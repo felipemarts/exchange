@@ -88,6 +88,14 @@
       cursor: pointer;
       transition: background 0.1s;
 
+      &:nth-child(odd) {
+        background: #0d0d0d;
+      }
+
+      &:nth-child(even) {
+        background: #1a1a1a;
+      }
+
       &:hover {
         background: var(--bg-tertiary);
       }

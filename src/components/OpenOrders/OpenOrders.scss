@@ -97,6 +97,18 @@
         top: 0;
       }
 
+      tr:nth-child(odd) td {
+        background: #1a1a1a;
+      }
+
+      tr:nth-child(even) td {
+        background: #242424;
+      }
+
+      tr:hover td {
+        background: var(--bg-tertiary);
+      }
+
       td {
         color: var(--text-primary);
         border-bottom: 1px solid var(--border-color);

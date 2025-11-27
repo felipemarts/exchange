@@ -51,3 +51,25 @@ export interface User {
 
 export type OrderSide = 'buy' | 'sell';
 export type OrderType = 'market' | 'limit';
+
+export interface WalletAsset {
+  symbol: string;
+  name: string;
+  balance: number;
+  availableBalance: number;
+  lockedBalance: number;
+  btcValue: number;
+  brlValue: number;
+  change24h: number;
+}
+
+export interface Transaction {
+  id: string;
+  type: 'deposit' | 'withdrawal' | 'trade' | 'fee';
+  asset: string;
+  amount: number;
+  status: 'pending' | 'completed' | 'failed';
+  timestamp: Date;
+  txHash?: string;
+  description: string;
+}

@@ -78,9 +78,16 @@ export function TradingChart({ symbol }: TradingChartProps) {
 
     return () => {
       if (widgetRef.current) {
-        widgetRef.current.remove();
+        try {
+          widgetRef.current.remove();
+        } catch (e) {
+          // Widget may already be removed from DOM
+        }
+        widgetRef.current = null;
       }
-      script.remove();
+      if (script.parentNode) {
+        script.remove();
+      }
     };
   }, [symbol]);
 
