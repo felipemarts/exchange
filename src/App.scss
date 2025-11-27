@@ -1,0 +1,177 @@
+.exchange-app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--bg-primary);
+}
+
+.loading-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: var(--bg-primary);
+
+  .loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 3px solid var(--border-color);
+      border-top-color: var(--accent-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    span {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.exchange-main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 320px 280px;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  overflow: hidden;
+  height: calc(100vh - 60px);
+
+  .left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 0;
+    overflow: hidden;
+    height: 100%;
+
+    .chart-section {
+      height: 650px;
+    }
+
+    .open-orders-section {
+      height: 310px;
+    }
+  }
+
+  .center-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 0;
+    overflow: hidden;
+    height: 100%;
+
+    .orderbook-section {
+      height: 650px;
+    }
+
+    .recent-trades-section {
+      height: 310px;
+    }
+  }
+
+  .right-column {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
+    height: 100%;
+
+    .order-form-section {
+      height: 100%;
+    }
+  }
+}
+
+// Responsive styles
+@media (max-width: 1400px) {
+  .exchange-main {
+    grid-template-columns: 1fr 280px 260px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .exchange-main {
+    grid-template-columns: 1fr 280px;
+    grid-template-rows: 1fr auto;
+
+    .left-column {
+      grid-column: 1;
+      grid-row: 1 / 3;
+    }
+
+    .center-column {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .right-column {
+      grid-column: 2;
+      grid-row: 2;
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  .exchange-main {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    height: auto;
+    overflow: auto;
+
+    .left-column {
+      .chart-section {
+        height: 400px;
+        flex: none;
+      }
+
+      .open-orders-section {
+        height: 250px;
+        flex: none;
+      }
+    }
+
+    .center-column {
+      .orderbook-section {
+        height: 350px;
+        flex: none;
+      }
+
+      .recent-trades-section {
+        height: 250px;
+        flex: none;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .exchange-main {
+    padding: 0.25rem;
+    gap: 0.25rem;
+
+    .left-column,
+    .center-column {
+      gap: 0.25rem;
+    }
+
+    .left-column {
+      .chart-section {
+        height: 350px;
+      }
+    }
+  }
+}
