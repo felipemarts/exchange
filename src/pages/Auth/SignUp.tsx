@@ -288,7 +288,7 @@ export function SignUp() {
             </div>
 
             <div className="form-group">
-              <label className="checkbox-label terms-checkbox">
+              <label className="checkbox-label">
                 <input
                   type="checkbox"
                   checked={formData.acceptTerms}
