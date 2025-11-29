@@ -31,6 +31,25 @@ export function OrderForm({ pair, user, onSubmit }: OrderFormProps) {
     }
   };
 
+  const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const percent = parseFloat(e.target.value);
+    handlePercentClick(percent / 100);
+  };
+
+  const getSliderValue = () => {
+    if (!amount || amount === '') return 0;
+    const amountValue = parseFloat(amount);
+    if (isNaN(amountValue) || amountValue <= 0) return 0;
+
+    if (side === 'buy') {
+      const priceToUse = orderType === 'market' ? pair.lastPrice : parseFloat(price) || pair.lastPrice;
+      const maxAmount = balance / priceToUse;
+      return maxAmount > 0 ? Math.min((amountValue / maxAmount) * 100, 100) : 0;
+    } else {
+      return balance > 0 ? Math.min((amountValue / balance) * 100, 100) : 0;
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const orderPrice = orderType === 'market' ? pair.lastPrice : parseFloat(price);
@@ -124,7 +143,7 @@ export function OrderForm({ pair, user, onSubmit }: OrderFormProps) {
               step="0.00000001"
               min="0"
             />
-            <span className="input-suffix">{pair.quote}</span>
+            <span className="input-suffix">{pair.base}</span>
           </div>
           <div className="balance-info">
             <span>Saldo disponível:</span>
@@ -134,6 +153,19 @@ export function OrderForm({ pair, user, onSubmit }: OrderFormProps) {
           </div>
         </div>
 
+
+        <div className="slider-container">
+          <input
+            type="range"
+            min="0"
+            max="100"
+            step="0.1"
+            value={getSliderValue()}
+            onChange={handleSliderChange}
+            className="amount-slider"
+            style={{ '--slider-progress': `${getSliderValue()}%` } as React.CSSProperties}
+          />
+        </div>
 
         <div className="percent-buttons">
           <button type="button" onClick={() => handlePercentClick(0.25)}>25%</button>
