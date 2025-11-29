@@ -10,7 +10,6 @@ interface Device {
   location: string;
   lastActive: Date;
   current: boolean;
-  trusted: boolean;
 }
 
 export function Devices() {
@@ -24,7 +23,6 @@ export function Devices() {
       location: 'São Paulo, BR',
       lastActive: new Date(),
       current: true,
-      trusted: true,
     },
     {
       id: '2',
@@ -34,7 +32,6 @@ export function Devices() {
       ip: '189.45.***',
       location: 'São Paulo, BR',
       lastActive: new Date(Date.now() - 3600000),
-      trusted: true,
       current: false,
     },
     {
@@ -45,7 +42,6 @@ export function Devices() {
       ip: '200.158.***',
       location: 'Rio de Janeiro, BR',
       lastActive: new Date(Date.now() - 86400000 * 3),
-      trusted: false,
       current: false,
     },
   ]);
@@ -100,20 +96,6 @@ export function Devices() {
     }
   };
 
-  const handleToggleTrust = async (deviceId: string) => {
-    setLoading(deviceId);
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      setDevices(
-        devices.map((d) =>
-          d.id === deviceId ? { ...d, trusted: !d.trusted } : d
-        )
-      );
-    } finally {
-      setLoading(null);
-    }
-  };
-
   const handleRevokeAll = async () => {
     setLoading('all');
     try {
@@ -159,9 +141,6 @@ export function Devices() {
               <div className="device-name">
                 {device.name}
                 {device.current && <span className="current-badge">Este dispositivo</span>}
-                {device.trusted && !device.current && (
-                  <span className="trusted-badge">Confiável</span>
-                )}
               </div>
               <div className="device-details">
                 <span>{device.browser}</span>
@@ -184,38 +163,21 @@ export function Devices() {
             </div>
             <div className="device-actions">
               {!device.current && (
-                <>
-                  <button
-                    className={`btn-icon ${device.trusted ? 'trusted' : ''}`}
-                    onClick={() => handleToggleTrust(device.id)}
-                    disabled={loading === device.id}
-                    title={device.trusted ? 'Remover confiança' : 'Marcar como confiável'}
-                  >
-                    {loading === device.id ? (
-                      <span className="loading-spinner small"></span>
-                    ) : (
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                        {device.trusted && <path d="M9 12l2 2 4-4" />}
-                      </svg>
-                    )}
-                  </button>
-                  <button
-                    className="btn-icon danger"
-                    onClick={() => handleRemoveDevice(device.id)}
-                    disabled={loading === device.id}
-                    title="Remover dispositivo"
-                  >
-                    {loading === device.id ? (
-                      <span className="loading-spinner small"></span>
-                    ) : (
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <polyline points="3,6 5,6 21,6" />
-                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                      </svg>
-                    )}
-                  </button>
-                </>
+                <button
+                  className="btn-icon danger"
+                  onClick={() => handleRemoveDevice(device.id)}
+                  disabled={loading === device.id}
+                  title="Remover dispositivo"
+                >
+                  {loading === device.id ? (
+                    <span className="loading-spinner small"></span>
+                  ) : (
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <polyline points="3,6 5,6 21,6" />
+                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                    </svg>
+                  )}
+                </button>
               )}
             </div>
           </div>
