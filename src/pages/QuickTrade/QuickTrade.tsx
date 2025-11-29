@@ -55,7 +55,8 @@ export function QuickTrade() {
   const navigate = useNavigate();
   const [selectedAsset, setSelectedAsset] = useState<CryptoAsset>(cryptoAssets[0]);
   const [activeTab, setActiveTab] = useState<'buy' | 'sell'>('buy');
-  const [amount, setAmount] = useState('');
+  const [buyAmount, setBuyAmount] = useState('');
+  const [sellAmount, setSellAmount] = useState('');
   const [showAssetSelector, setShowAssetSelector] = useState(false);
   const [statusFilter, setStatusFilter] = useState<'all' | 'open'>('all');
   const [typeFilter, setTypeFilter] = useState<'all' | 'buy' | 'sell'>('all');
@@ -75,29 +76,62 @@ export function QuickTrade() {
     const asset = cryptoAssets.find(a => a.symbol === base);
     if (asset) {
       setSelectedAsset(asset);
-      setAmount('');
+      setBuyAmount('');
+      setSellAmount('');
     }
   };
 
-  const handlePercentage = (percent: number) => {
-    if (activeTab === 'buy') {
-      const available = 1500;
-      const value = (available * percent) / 100;
-      setAmount(value.toFixed(2));
-    } else {
-      const available = parseFloat(selectedAsset.balance);
-      const value = (available * percent) / 100;
-      setAmount(value.toFixed(8));
-    }
+  const handleBuyPercentage = (percent: number) => {
+    const available = 1500;
+    const value = (available * percent) / 100;
+    setBuyAmount(value.toFixed(2));
   };
 
-  const calculateTotal = () => {
-    if (!amount) return '0,00';
+  const handleSellPercentage = (percent: number) => {
+    const available = parseFloat(selectedAsset.balance);
+    const value = (available * percent) / 100;
+    setSellAmount(value.toFixed(8));
+  };
+
+  const handleBuySliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const percent = parseFloat(e.target.value);
+    const available = 1500;
+    const value = (available * percent) / 100;
+    setBuyAmount(value.toFixed(2));
+  };
+
+  const handleSellSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const percent = parseFloat(e.target.value);
+    const available = parseFloat(selectedAsset.balance);
+    const value = (available * percent) / 100;
+    setSellAmount(value.toFixed(8));
+  };
+
+  const getBuySliderValue = () => {
+    if (!buyAmount) return 0;
+    const amountValue = parseFloat(buyAmount.replace(',', '.'));
+    const available = 1500;
+    return (amountValue / available) * 100;
+  };
+
+  const getSellSliderValue = () => {
+    if (!sellAmount) return 0;
+    const amountValue = parseFloat(sellAmount.replace(',', '.'));
+    const available = parseFloat(selectedAsset.balance);
+    return (amountValue / available) * 100;
+  };
+
+  const calculateBuyTotal = () => {
+    if (!buyAmount) return '0,00';
     const price = parseFloat(selectedAsset.price.replace(/[^\d,]/g, '').replace(',', '.'));
-    const qty = parseFloat(amount.replace(',', '.'));
-    if (activeTab === 'buy') {
-      return (qty / price).toFixed(8);
-    }
+    const qty = parseFloat(buyAmount.replace(',', '.'));
+    return (qty / price).toFixed(8);
+  };
+
+  const calculateSellTotal = () => {
+    if (!sellAmount) return '0,00';
+    const price = parseFloat(selectedAsset.price.replace(/[^\d,]/g, '').replace(',', '.'));
+    const qty = parseFloat(sellAmount.replace(',', '.'));
     return (qty * price).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
   };
 
@@ -131,7 +165,6 @@ export function QuickTrade() {
                 onClick={() => {
                   setSelectedAsset(asset);
                   setShowAssetSelector(false);
-                  setAmount('');
                 }}
               >
                 <div className="asset-icon">{asset.symbol.charAt(0)}</div>
@@ -239,6 +272,12 @@ export function QuickTrade() {
             <div className="panel-content">
               {parseFloat(brlBalance.replace(/[^\d,]/g, '').replace(',', '.')) > 0 ? (
                 <>
+                  <div className="summary">
+                    <div className="summary-row">
+                      <span>Saldo disponível:</span>
+                      <strong>{brlBalance}</strong>
+                    </div>
+                  </div>
                   <div className="amount-input">
                     <label>Valor em R$</label>
                     <div className="input-wrapper">
@@ -246,22 +285,37 @@ export function QuickTrade() {
                       <input
                         type="text"
                         placeholder="0,00"
-                        value={activeTab === 'buy' ? amount : ''}
-                        onChange={(e) => activeTab === 'buy' && setAmount(e.target.value)}
+                        value={buyAmount}
+                        onChange={(e) => setBuyAmount(e.target.value)}
                         disabled={activeTab !== 'buy'}
                       />
                     </div>
                   </div>
+                  <div className="slider-container">
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      step="0.1"
+                      value={getBuySliderValue()}
+                      onChange={handleBuySliderChange}
+                      className="amount-slider"
+                      disabled={activeTab !== 'buy'}
+                      style={{ '--slider-progress': `${getBuySliderValue()}%` } as React.CSSProperties}
+                    />
+                  </div>
                   <p className="min-value">Valor mínimo de compra R$ 1,00</p>
                   <div className="percentage-buttons">
-                    <button onClick={() => handlePercentage(25)}>25%</button>
-                    <button onClick={() => handlePercentage(50)}>50%</button>
-                    <button onClick={() => handlePercentage(75)}>75%</button>
-                    <button onClick={() => handlePercentage(100)}>100%</button>
+                    <button onClick={() => handleBuyPercentage(25)}>25%</button>
+                    <button onClick={() => handleBuyPercentage(50)}>50%</button>
+                    <button onClick={() => handleBuyPercentage(75)}>75%</button>
+                    <button onClick={() => handleBuyPercentage(100)}>100%</button>
                   </div>
                   <div className="summary">
-                    <span>Saldo disponível para compra:</span>
-                    <strong>{brlBalance}</strong>
+                    <div className="summary-row">
+                      <span>Você receberá:</span>
+                      <strong className="highlight">{calculateBuyTotal()} {selectedAsset.symbol}</strong>
+                    </div>
                   </div>
                   <button className="action-btn buy" disabled={activeTab !== 'buy'}>
                     Comprar {selectedAsset.symbol}
@@ -299,29 +353,50 @@ export function QuickTrade() {
             <div className="panel-content">
               {parseFloat(selectedAsset.balance) > 0 ? (
                 <>
+                  <div className="summary">
+                    <div className="summary-row">
+                      <span>Saldo disponível:</span>
+                      <strong>{selectedAsset.balance} {selectedAsset.symbol}</strong>
+                    </div>
+                  </div>
                   <div className="amount-input">
                     <label>Quantidade em {selectedAsset.symbol}</label>
                     <div className="input-wrapper">
                       <input
                         type="text"
                         placeholder="0.00000000"
-                        value={activeTab === 'sell' ? amount : ''}
-                        onChange={(e) => activeTab === 'sell' && setAmount(e.target.value)}
+                        value={sellAmount}
+                        onChange={(e) => setSellAmount(e.target.value)}
                         disabled={activeTab !== 'sell'}
                       />
                       <span className="suffix">{selectedAsset.symbol}</span>
                     </div>
                   </div>
+                  <div className="slider-container">
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      step="0.1"
+                      value={getSellSliderValue()}
+                      onChange={handleSellSliderChange}
+                      className="amount-slider"
+                      disabled={activeTab !== 'sell'}
+                      style={{ '--slider-progress': `${getSellSliderValue()}%` } as React.CSSProperties}
+                    />
+                  </div>
                   <p className="min-value sell">Valor mínimo para venda R$ 1,00</p>
                   <div className="percentage-buttons">
-                    <button onClick={() => handlePercentage(25)}>25%</button>
-                    <button onClick={() => handlePercentage(50)}>50%</button>
-                    <button onClick={() => handlePercentage(75)}>75%</button>
-                    <button onClick={() => handlePercentage(100)}>100%</button>
+                    <button onClick={() => handleSellPercentage(25)}>25%</button>
+                    <button onClick={() => handleSellPercentage(50)}>50%</button>
+                    <button onClick={() => handleSellPercentage(75)}>75%</button>
+                    <button onClick={() => handleSellPercentage(100)}>100%</button>
                   </div>
                   <div className="summary">
-                    <span>Saldo estimado para venda:</span>
-                    <strong className="sell">{selectedAsset.balanceBRL}</strong>
+                    <div className="summary-row">
+                      <span>Você receberá:</span>
+                      <strong className="highlight">R$ {calculateSellTotal()}</strong>
+                    </div>
                   </div>
                   <button className="action-btn sell" disabled={activeTab !== 'sell'}>
                     Vender {selectedAsset.symbol}

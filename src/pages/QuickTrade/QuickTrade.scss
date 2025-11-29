@@ -361,14 +361,6 @@
       position: relative;
       z-index: 1;
       outline: none;
-
-      &:focus {
-        outline: none;
-      }
-
-      &:focus-visible {
-        outline: none;
-      }
     }
 
     &.buy.active .panel-header {
@@ -443,12 +435,6 @@
             opacity: 0.5;
           }
 
-          &:focus {
-            outline: 2px solid var(--accent-color);
-            outline-offset: -2px;
-            border-radius: 4px;
-          }
-
           &:disabled {
             cursor: not-allowed;
           }
@@ -470,6 +456,99 @@
 
       &.sell {
         color: var(--danger-color);
+      }
+    }
+
+    .slider-container {
+      margin: 1rem 0 0.5rem;
+
+      .amount-slider {
+        width: 100%;
+        height: 6px;
+        background: linear-gradient(90deg,
+          var(--accent-color) 0%,
+          var(--accent-color) var(--slider-progress, 0%),
+          var(--bg-tertiary) var(--slider-progress, 0%),
+          var(--bg-tertiary) 100%);
+        border-radius: 10px;
+        outline: none;
+        -webkit-appearance: none;
+        appearance: none;
+        cursor: pointer;
+
+        &::-webkit-slider-runnable-track {
+          width: 100%;
+          height: 6px;
+          border-radius: 10px;
+        }
+
+        &::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 18px;
+          height: 18px;
+          background: var(--accent-color);
+          border-radius: 50%;
+          cursor: pointer;
+          transition: all 0.2s;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+          margin-top: -6px;
+
+          &:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 0 8px rgba(0, 230, 118, 0.15);
+          }
+
+          &:active {
+            transform: scale(1.1);
+          }
+        }
+
+        &::-moz-range-track {
+          width: 100%;
+          height: 6px;
+          background: var(--bg-tertiary);
+          border-radius: 10px;
+        }
+
+        &::-moz-range-progress {
+          height: 6px;
+          background: var(--accent-color);
+          border-radius: 10px 0 0 10px;
+        }
+
+        &::-moz-range-thumb {
+          width: 18px;
+          height: 18px;
+          background: var(--accent-color);
+          border: none;
+          border-radius: 50%;
+          cursor: pointer;
+          transition: all 0.2s;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+          &:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 0 8px rgba(0, 230, 118, 0.15);
+          }
+
+          &:active {
+            transform: scale(1.1);
+          }
+        }
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+
+          &::-webkit-slider-thumb {
+            cursor: not-allowed;
+          }
+
+          &::-moz-range-thumb {
+            cursor: not-allowed;
+          }
+        }
       }
     }
 
@@ -503,21 +582,32 @@
 
     .summary {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: column;
+      gap: 0.75rem;
       margin-bottom: 1rem;
 
-      span {
-        font-size: 0.85rem;
-        color: var(--text-secondary);
-      }
+      .summary-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
 
-      strong {
-        font-size: 0.9rem;
-        color: var(--text-primary);
+        span {
+          font-size: 0.85rem;
+          color: var(--text-secondary);
+        }
 
-        &.sell {
-          color: var(--danger-color);
+        strong {
+          font-size: 0.9rem;
+          color: var(--text-primary);
+
+          &.sell {
+            color: var(--danger-color);
+          }
+
+          &.highlight {
+            color: var(--accent-color);
+            font-size: 1rem;
+          }
         }
       }
     }
