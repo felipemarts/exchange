@@ -10,19 +10,19 @@
   .side-tabs {
     display: flex;
     margin-bottom: 1rem;
-    border-bottom: 2px solid var(--border-color);
+    border-bottom: 2px solid rgba(139, 148, 158, 0.2);
 
     .side-tab {
       flex: 1;
       padding: 0.75rem;
       background: transparent;
       border: none;
-      font-size: 0.9rem;
-      font-weight: 600;
+      font-size: 1rem;
+      font-weight: 700;
       cursor: pointer;
       position: relative;
-      color: var(--text-secondary);
-      transition: color 0.2s;
+      color: rgba(139, 148, 158, 0.6);
+      transition: all 0.2s;
 
       &::after {
         content: '';
@@ -30,30 +30,38 @@
         bottom: -2px;
         left: 0;
         right: 0;
-        height: 2px;
+        height: 3px;
         background: transparent;
-        transition: background 0.2s;
+        transition: all 0.2s;
       }
 
       &.buy {
-        &:hover,
+        &:hover {
+          color: rgba(0, 210, 106, 0.8);
+        }
+
         &.active {
           color: var(--success-color);
         }
 
         &.active::after {
           background: var(--success-color);
+          box-shadow: 0 0 8px rgba(0, 210, 106, 0.5);
         }
       }
 
       &.sell {
-        &:hover,
+        &:hover {
+          color: rgba(248, 81, 73, 0.8);
+        }
+
         &.active {
           color: var(--danger-color);
         }
 
         &.active::after {
           background: var(--danger-color);
+          box-shadow: 0 0 8px rgba(248, 81, 73, 0.5);
         }
       }
     }
@@ -72,22 +80,31 @@
 
     label {
       font-size: 0.75rem;
-      color: var(--text-secondary);
+      color: var(--text-primary);
+      font-weight: 500;
+      margin-bottom: 0.125rem;
     }
 
     .order-type-select {
       width: 100%;
       padding: 0.625rem 0.75rem;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
+      background: var(--bg-tertiary);
+      border: 1px solid rgba(139, 148, 158, 0.3);
       border-radius: 4px;
       color: var(--text-primary);
-      font-size: 0.85rem;
+      font-size: 0.9rem;
+      font-weight: 500;
       cursor: pointer;
+      transition: all 0.2s;
+
+      &:hover {
+        border-color: rgba(139, 148, 158, 0.5);
+      }
 
       &:focus {
         outline: none;
         border-color: var(--accent-color);
+        background: var(--bg-secondary);
       }
 
       option {
@@ -98,17 +115,26 @@
 
     .input-group {
       display: flex;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
+      background: var(--bg-tertiary);
+      border: 1px solid rgba(139, 148, 158, 0.3);
       border-radius: 4px;
       overflow: hidden;
+      transition: all 0.2s;
+
+      &:hover:not(.disabled) {
+        border-color: rgba(139, 148, 158, 0.5);
+      }
 
       &:focus-within {
         border-color: var(--accent-color);
+        background: var(--bg-secondary);
+        box-shadow: 0 0 0 1px var(--accent-color);
       }
 
       &.disabled {
-        opacity: 0.7;
+        opacity: 1;
+        background: var(--bg-tertiary);
+        cursor: not-allowed;
       }
 
       input {
@@ -117,29 +143,35 @@
         background: transparent;
         border: none;
         color: var(--text-primary);
-        font-size: 0.85rem;
+        font-size: 0.95rem;
+        font-weight: 500;
 
         &:focus {
           outline: none;
         }
 
         &:disabled {
-          color: var(--text-secondary);
+          color: var(--text-primary);
+          font-weight: 500;
+          cursor: not-allowed;
+          -webkit-text-fill-color: var(--text-primary);
+          opacity: 1;
         }
 
         &::placeholder {
-          color: var(--text-secondary);
-          opacity: 0.5;
+          color: rgba(139, 148, 158, 0.4);
         }
       }
 
       .input-suffix {
         padding: 0.625rem 0.75rem;
-        background: var(--bg-tertiary);
-        color: var(--text-secondary);
-        font-size: 0.8rem;
+        background: rgba(33, 38, 45, 0.6);
+        color: rgba(139, 148, 158, 0.9);
+        font-size: 0.85rem;
+        font-weight: 600;
         display: flex;
         align-items: center;
+        border-left: 1px solid rgba(139, 148, 158, 0.2);
       }
     }
   }
@@ -230,19 +262,25 @@
 
     button {
       flex: 1;
-      padding: 0.5rem;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
+      padding: 0.625rem;
+      background: var(--bg-tertiary);
+      border: 1px solid rgba(139, 148, 158, 0.3);
       border-radius: 4px;
-      color: var(--text-secondary);
-      font-size: 0.75rem;
+      color: var(--text-primary);
+      font-size: 0.8rem;
+      font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
 
       &:hover {
-        background: var(--bg-tertiary);
-        color: var(--text-primary);
-        border-color: var(--text-secondary);
+        background: var(--bg-secondary);
+        border-color: var(--accent-color);
+        color: var(--accent-color);
+        transform: translateY(-1px);
+      }
+
+      &:active {
+        transform: translateY(0);
       }
     }
   }
@@ -254,10 +292,20 @@
     font-size: 0.75rem;
     padding: 0;
     margin-bottom: 0;
-  }
-  
-  .balance-info span {
-    font-size: 0.75rem;
+
+    span {
+      font-size: 0.75rem;
+      color: var(--text-primary);
+
+      &:first-child {
+        color: rgba(139, 148, 158, 0.9);
+      }
+
+      &.balance-value {
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+    }
   }
 
   .submit-btn {
@@ -265,33 +313,50 @@
     padding: 0.875rem;
     border: none;
     border-radius: 4px;
-    font-size: 0.9rem;
-    font-weight: 600;
+    font-size: 1rem;
+    font-weight: 700;
     cursor: pointer;
     transition: all 0.2s;
     margin-top: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 
     &.buy {
       background: var(--success-color);
       color: white;
+      box-shadow: 0 2px 8px rgba(0, 210, 106, 0.3);
 
       &:hover:not(:disabled) {
         background: var(--success-hover);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 210, 106, 0.4);
+      }
+
+      &:active:not(:disabled) {
+        transform: translateY(0);
       }
     }
 
     &.sell {
       background: var(--danger-color);
       color: white;
+      box-shadow: 0 2px 8px rgba(248, 81, 73, 0.3);
 
       &:hover:not(:disabled) {
         background: var(--danger-hover);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(248, 81, 73, 0.4);
+      }
+
+      &:active:not(:disabled) {
+        transform: translateY(0);
       }
     }
 
     &:disabled {
-      opacity: 0.5;
+      opacity: 0.4;
       cursor: not-allowed;
+      box-shadow: none;
     }
   }
 

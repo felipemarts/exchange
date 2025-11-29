@@ -183,7 +183,7 @@ export function OrderForm({ pair, user, onSubmit }: OrderFormProps) {
               placeholder="0.00000000"
               disabled
             />
-            <span className="input-suffix">{pair.base}</span>
+            <span className="input-suffix">{side === 'buy' ? pair.base : pair.quote}</span>
           </div>
         </div>
 
