@@ -668,14 +668,46 @@
     border-radius: 12px;
     padding: 1.5rem;
 
-    h2 {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin: 0 0 1.5rem;
-      padding-bottom: 0.75rem;
-      border-bottom: 3px solid var(--accent-color);
-      display: inline-block;
+    .orders-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+
+      h2 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin: 0;
+        padding-bottom: 0.75rem;
+        border-bottom: 3px solid var(--accent-color);
+        display: inline-block;
+      }
+
+      .see-all-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 0.75rem;
+        background: transparent;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+
+        &:hover {
+          color: var(--accent-color);
+          border-color: var(--accent-color);
+          background: rgba(0, 230, 118, 0.05);
+        }
+
+        svg {
+          flex-shrink: 0;
+        }
+      }
     }
 
     .orders-filters {

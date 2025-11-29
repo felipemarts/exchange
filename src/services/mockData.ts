@@ -162,6 +162,16 @@ export const mockOpenOrders: Order[] = [
 
 export const mockWalletAssets: WalletAsset[] = [
   {
+    symbol: 'BRL',
+    name: 'Real Brasileiro',
+    balance: 50000.00,
+    availableBalance: 45200.00,
+    lockedBalance: 4800.00,
+    btcValue: 0.10234567,
+    brlValue: 50000.00,
+    change24h: 0,
+  },
+  {
     symbol: 'BTC',
     name: 'Bitcoin',
     balance: 0.52345678,
@@ -180,16 +190,6 @@ export const mockWalletAssets: WalletAsset[] = [
     btcValue: 0.18765432,
     brlValue: 93456.78,
     change24h: 2.34,
-  },
-  {
-    symbol: 'BRL',
-    name: 'Real Brasileiro',
-    balance: 50000.00,
-    availableBalance: 45200.00,
-    lockedBalance: 4800.00,
-    btcValue: 0.10234567,
-    brlValue: 50000.00,
-    change24h: 0,
   },
   {
     symbol: 'USDT',

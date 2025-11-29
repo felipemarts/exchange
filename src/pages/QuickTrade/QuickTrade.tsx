@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { PairSelectorModal } from '../../components';
 import './QuickTrade.scss';
 
@@ -53,6 +53,7 @@ const tradingPairs: TradingPair[] = [
 
 export function QuickTrade() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [selectedAsset, setSelectedAsset] = useState<CryptoAsset>(cryptoAssets[0]);
   const [activeTab, setActiveTab] = useState<'buy' | 'sell'>('buy');
   const [buyAmount, setBuyAmount] = useState('');
@@ -62,6 +63,22 @@ export function QuickTrade() {
   const [typeFilter, setTypeFilter] = useState<'all' | 'buy' | 'sell'>('all');
   const [showPairSelector, setShowPairSelector] = useState(false);
   const [selectedPair, setSelectedPair] = useState<string>('BTC/BRL');
+
+  // Detecta se veio um par pela URL e seleciona automaticamente
+  useEffect(() => {
+    const pairParam = searchParams.get('pair');
+    if (pairParam) {
+      const validPair = tradingPairs.find(p => p.symbol === pairParam);
+      if (validPair) {
+        setSelectedPair(pairParam);
+        const base = pairParam.split('/')[0];
+        const asset = cryptoAssets.find(a => a.symbol === base);
+        if (asset) {
+          setSelectedAsset(asset);
+        }
+      }
+    }
+  }, [searchParams]);
 
   const brlBalance = 'R$ 1.500,00';
   const brlInOrders = 'R$ 0,00';
@@ -426,7 +443,15 @@ export function QuickTrade() {
         </div>
 
         <div className="orders-section">
-          <h2>Minhas Ordens</h2>
+          <div className="orders-header">
+            <h2>Minhas Ordens</h2>
+            <button className="see-all-btn" onClick={() => navigate('/app/orders')}>
+              Ver tudo
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
+          </div>
 
           <div className="orders-filters">
             <div className="filter-group">

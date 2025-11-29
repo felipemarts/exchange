@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { WalletAsset } from '../../types';
 import './Wallet.scss';
 
@@ -7,6 +8,7 @@ interface WalletProps {
 }
 
 export function Wallet({ assets }: WalletProps) {
+  const navigate = useNavigate();
   const [hideSmallBalances, setHideSmallBalances] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -40,9 +42,8 @@ export function Wallet({ assets }: WalletProps) {
       <div className="wallet-header">
         <h1>Carteira</h1>
         <div className="wallet-actions">
-          <button className="btn-primary">Depositar</button>
-          <button className="btn-secondary">Sacar</button>
-          <button className="btn-secondary">Transferir</button>
+          <button className="btn-primary" onClick={() => navigate('/app/deposit')}>Depositar</button>
+          <button className="btn-secondary" onClick={() => navigate('/app/withdraw')}>Sacar</button>
         </div>
       </div>
 
@@ -116,9 +117,35 @@ export function Wallet({ assets }: WalletProps) {
                 </span>
               </div>
               <div className="actions-cell">
-                <button className="btn-action">Depositar</button>
-                <button className="btn-action">Sacar</button>
-                <button className="btn-action">Negociar</button>
+                <button
+                  className="btn-action"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    asset.symbol === 'BRL' ? navigate('/app/deposit?type=fiat') : navigate(`/app/deposit?asset=${asset.symbol}`);
+                  }}
+                >
+                  Depositar
+                </button>
+                <button
+                  className="btn-action"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    asset.symbol === 'BRL' ? navigate('/app/withdraw?type=fiat') : navigate(`/app/withdraw?asset=${asset.symbol}`);
+                  }}
+                >
+                  Sacar
+                </button>
+                {asset.symbol !== 'BRL' && (
+                  <button
+                    className="btn-action"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(`/app/trade?pair=${asset.symbol}/BRL`);
+                    }}
+                  >
+                    Negociar
+                  </button>
+                )}
               </div>
             </div>
           ))}

@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import './Withdraw.scss';
 
 type WithdrawType = 'fiat' | 'crypto';
@@ -29,6 +30,7 @@ const mockWithdrawHistory: WithdrawHistory[] = [
 ];
 
 export function Withdraw() {
+  const [searchParams] = useSearchParams();
   const [withdrawType, setWithdrawType] = useState<WithdrawType | null>(null);
   const [selectedCrypto, setSelectedCrypto] = useState<CryptoAsset | null>(null);
   const [pixKey, setPixKey] = useState('');
@@ -37,6 +39,22 @@ export function Withdraw() {
   const [cryptoAmount, setCryptoAmount] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+
+  // Detecta se veio um asset ou type pela URL e seleciona automaticamente
+  useEffect(() => {
+    const assetParam = searchParams.get('asset');
+    const typeParam = searchParams.get('type');
+
+    if (typeParam === 'fiat') {
+      setWithdrawType('fiat');
+    } else if (assetParam) {
+      const validAsset = cryptoAssets.find(a => a.symbol === assetParam);
+      if (validAsset) {
+        setWithdrawType('crypto');
+        setSelectedCrypto(validAsset.symbol as CryptoAsset);
+      }
+    }
+  }, [searchParams]);
 
   const brlBalance = 15420.5;
 

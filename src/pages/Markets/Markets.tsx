@@ -138,7 +138,7 @@ export function Markets() {
   };
 
   const handlePairClick = (pair: TradingPair) => {
-    navigate('/app/broker', { state: { pair: pair.symbol } });
+    navigate(`/app/trade?pair=${pair.symbol}`);
   };
 
   return (

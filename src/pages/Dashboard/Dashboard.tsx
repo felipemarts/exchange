@@ -22,11 +22,11 @@ interface Activity {
 }
 
 const portfolioAssets: Asset[] = [
+  { symbol: 'BRL', name: 'Real', balance: '1.500,00', value: 'R$ 1.500,00', change24h: 0, price: 'R$ 1,00' },
   { symbol: 'BTC', name: 'Bitcoin', balance: '0.00125000', value: 'R$ 625,00', change24h: 2.5, price: 'R$ 500.000,00' },
   { symbol: 'ETH', name: 'Ethereum', balance: '0.15000000', value: 'R$ 750,00', change24h: -1.2, price: 'R$ 5.000,00' },
   { symbol: 'USDT', name: 'Tether', balance: '500.00', value: 'R$ 2.500,00', change24h: 0.1, price: 'R$ 5,00' },
   { symbol: 'SOL', name: 'Solana', balance: '2.50', value: 'R$ 1.250,00', change24h: 5.8, price: 'R$ 500,00' },
-  { symbol: 'BRL', name: 'Real', balance: '1.500,00', value: 'R$ 1.500,00', change24h: 0, price: 'R$ 1,00' },
 ];
 
 const recentActivity: Activity[] = [
@@ -174,7 +174,12 @@ export function Dashboard() {
               <span>24h</span>
             </div>
             {portfolioAssets.map((asset) => (
-              <div key={asset.symbol} className="asset-row" onClick={() => navigate('/app/trade')}>
+              <div
+                key={asset.symbol}
+                className="asset-row"
+                onClick={() => asset.symbol === 'BRL' ? navigate('/app/wallet') : navigate(`/app/trade?pair=${asset.symbol}/BRL`)}
+                style={{ cursor: 'pointer' }}
+              >
                 <div className="asset-info">
                   <div className="asset-icon">{asset.symbol.charAt(0)}</div>
                   <div className="asset-details">
@@ -231,7 +236,7 @@ export function Dashboard() {
             </div>
             <div className="market-list">
               {marketData.map((coin) => (
-                <div key={coin.symbol} className="market-item" onClick={() => navigate('/app/trade')}>
+                <div key={coin.symbol} className="market-item" onClick={() => navigate(`/app/trade?pair=${coin.symbol}/BRL`)}>
                   <div className="coin-info">
                     <div className="coin-icon">{coin.symbol.charAt(0)}</div>
                     <div className="coin-details">

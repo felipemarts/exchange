@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import './Deposit.scss';
 
 type DepositType = 'fiat' | 'crypto';
@@ -35,9 +36,26 @@ const mockDepositHistory: DepositHistory[] = [
 ];
 
 export function Deposit() {
+  const [searchParams] = useSearchParams();
   const [depositType, setDepositType] = useState<DepositType | null>(null);
   const [selectedCrypto, setSelectedCrypto] = useState<CryptoAsset | null>(null);
   const [copied, setCopied] = useState(false);
+
+  // Detecta se veio um asset ou type pela URL e seleciona automaticamente
+  useEffect(() => {
+    const assetParam = searchParams.get('asset');
+    const typeParam = searchParams.get('type');
+
+    if (typeParam === 'fiat') {
+      setDepositType('fiat');
+    } else if (assetParam) {
+      const validAsset = cryptoAssets.find(a => a.symbol === assetParam);
+      if (validAsset) {
+        setDepositType('crypto');
+        setSelectedCrypto(validAsset.symbol as CryptoAsset);
+      }
+    }
+  }, [searchParams]);
 
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);

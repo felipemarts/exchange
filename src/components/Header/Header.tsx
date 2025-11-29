@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { TradingPair, User } from '../../types';
 import './Header.scss';
 
@@ -9,6 +10,8 @@ interface HeaderProps {
 }
 
 export function Header({ pair, pairs, user, onPairChange }: HeaderProps) {
+  const navigate = useNavigate();
+
   const formatPrice = (price: number) => {
     return price.toLocaleString('pt-BR', {
       minimumFractionDigits: 2,
@@ -83,7 +86,7 @@ export function Header({ pair, pairs, user, onPairChange }: HeaderProps) {
           Alertas de preço
         </button>
 
-        <button className="btn-deposit">Depositar</button>
+        <button className="btn-deposit" onClick={() => navigate('/app/deposit')}>Depositar</button>
 
         <div className="user-menu">
           <button className="btn-transfer">
