@@ -115,7 +115,7 @@ export function OrderForm({ pair, user, onSubmit }: OrderFormProps) {
 
         <div className="form-group">
           <label>Valor de {side === 'buy' ? 'Compra' : 'Venda'}</label>
-          <div className="input-group">
+          <div className="input-group m-0">
             <input
               type="number"
               value={amount}
@@ -126,7 +126,14 @@ export function OrderForm({ pair, user, onSubmit }: OrderFormProps) {
             />
             <span className="input-suffix">{pair.quote}</span>
           </div>
+          <div className="balance-info">
+            <span>Saldo disponível:</span>
+            <span className="balance-value">
+              {formatCurrency(balance)} {side === 'buy' ? pair.quote : pair.base}
+            </span>
+          </div>
         </div>
+
 
         <div className="percent-buttons">
           <button type="button" onClick={() => handlePercentClick(0.25)}>25%</button>
@@ -148,13 +155,6 @@ export function OrderForm({ pair, user, onSubmit }: OrderFormProps) {
           </div>
         </div>
 
-        <div className="balance-info">
-          <span>Saldo disponível:</span>
-          <span className="balance-value">
-            {formatCurrency(balance)} {side === 'buy' ? pair.quote : pair.base}
-          </span>
-        </div>
-
         <button
           type="submit"
           className={`submit-btn ${side}`}
@@ -162,10 +162,6 @@ export function OrderForm({ pair, user, onSubmit }: OrderFormProps) {
         >
           {side === 'buy' ? 'Comprar' : 'Vender'}
         </button>
-
-        <div className="fee-info">
-          VALOR DA TAXA: 0,00000000 {pair.base}
-        </div>
       </form>
     </div>
   );

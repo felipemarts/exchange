@@ -170,13 +170,14 @@
   .balance-info {
     display: flex;
     justify-content: space-between;
+    background-color: transparent;
     font-size: 0.75rem;
-    color: var(--text-secondary);
-    padding: 0.5rem 0;
-
-    .balance-value {
-      color: var(--text-primary);
-    }
+    padding: 0;
+    margin-bottom: 0;
+  }
+  
+  .balance-info span {
+    font-size: 0.75rem;
   }
 
   .submit-btn {

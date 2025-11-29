@@ -44,9 +44,9 @@
 
   .order-book-content {
     flex: 1;
-    overflow: hidden;
     display: flex;
     flex-direction: column;
+    min-height: 0;
 
     .order-book-columns {
       display: grid;
@@ -56,14 +56,16 @@
       color: var(--text-secondary);
       text-transform: uppercase;
       border-bottom: 1px solid var(--border-color);
+      flex-shrink: 0;
     }
 
     .asks-section,
     .bids-section {
       flex: 1;
-      overflow-y: auto;
+      overflow-y: clip;
       display: flex;
       flex-direction: column;
+      min-height: 0;
 
       &::-webkit-scrollbar {
         width: 4px;
@@ -143,6 +145,7 @@
       background: var(--bg-secondary);
       border-top: 1px solid var(--border-color);
       border-bottom: 1px solid var(--border-color);
+      flex-shrink: 0;
 
       .current-price {
         display: flex;
