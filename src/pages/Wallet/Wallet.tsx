@@ -79,14 +79,6 @@ export function Wallet({ assets }: WalletProps) {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <label className="checkbox-filter">
-          <input
-            type="checkbox"
-            checked={hideSmallBalances}
-            onChange={(e) => setHideSmallBalances(e.target.checked)}
-          />
-          Ocultar saldos pequenos
-        </label>
       </div>
 
       <div className="wallet-table">

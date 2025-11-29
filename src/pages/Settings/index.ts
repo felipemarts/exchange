@@ -1,0 +1,9 @@
+export { Settings } from './Settings';
+export { Profile } from './Profile';
+export { KYC } from './KYC';
+export { TwoFactor } from './TwoFactor';
+export { Devices } from './Devices';
+export { SafeWord } from './SafeWord';
+export { Notifications } from './Notifications';
+export { Theme } from './Theme';
+export { ApiKeys } from './ApiKeys';

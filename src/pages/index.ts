@@ -2,3 +2,8 @@ export { Trading } from './Trading/Trading';
 export { Wallet } from './Wallet/Wallet';
 export { Statement } from './Statement/Statement';
 export { Orders } from './Orders/Orders';
+export { Deposit } from './Deposit';
+export { Withdraw } from './Withdraw';
+export { QuickTrade } from './QuickTrade';
+export { Dashboard } from './Dashboard';
+export { Markets } from './Markets';

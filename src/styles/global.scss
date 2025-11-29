@@ -1,5 +1,6 @@
-// Theme colors - Green/Black
-:root {
+// Theme colors - Dark Theme (Default)
+:root,
+[data-theme="dark"] {
   // Background colors
   --bg-primary: #0d1117;
   --bg-secondary: #161b22;
@@ -28,6 +29,46 @@
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
   --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.3);
+
+  // Table alternating colors
+  --table-row-odd: #0d0d0d;
+  --table-row-even: #1a1a1a;
+}
+
+// Light Theme
+[data-theme="light"] {
+  // Background colors
+  --bg-primary: #ffffff;
+  --bg-secondary: #f6f8fa;
+  --bg-tertiary: #eaeef2;
+
+  // Text colors
+  --text-primary: #1f2328;
+  --text-secondary: #656d76;
+
+  // Accent colors (Green theme)
+  --accent-color: #00a854;
+  --accent-hover: #008f47;
+  --accent-muted: rgba(0, 168, 84, 0.15);
+
+  // Status colors
+  --success-color: #00a854;
+  --success-hover: #008f47;
+  --danger-color: #cf222e;
+  --danger-hover: #a40e26;
+  --warning-color: #9a6700;
+
+  // Border
+  --border-color: #d0d7de;
+
+  // Shadows
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+
+  // Table alternating colors
+  --table-row-odd: #f6f8fa;
+  --table-row-even: #ffffff;
 }
 
 // Reset

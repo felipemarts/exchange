@@ -1,7 +1,19 @@
 import { useState, useEffect, useCallback } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Layout } from './components';
-import { Trading, Wallet, Statement, Orders } from './pages';
+import { Trading, Wallet, Statement, Orders, Deposit, Withdraw, QuickTrade, Dashboard, Markets } from './pages';
+import { Login, SignUp, Recover } from './pages/Auth';
+import {
+  Settings,
+  Profile,
+  KYC,
+  TwoFactor,
+  Devices,
+  SafeWord,
+  Notifications,
+  Theme,
+  ApiKeys,
+} from './pages/Settings';
 import { api } from './services/api';
 import { mockWalletAssets, mockTransactions, mockOpenOrders } from './services/mockData';
 import { User, Order } from './types';
@@ -54,11 +66,39 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout user={user} />}>
-          <Route index element={<Trading user={user} />} />
+        {/* Root redirect */}
+        <Route path="/" element={<Navigate to="/login" replace />} />
+
+        {/* Auth Routes */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/recover" element={<Recover />} />
+
+        {/* Main App Routes */}
+        <Route path="/app" element={<Layout user={user} />}>
+          <Route index element={<Navigate to="/app/dashboard" replace />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="broker" element={<Trading user={user} />} />
+          <Route path="trade" element={<QuickTrade />} />
+          <Route path="markets" element={<Markets />} />
           <Route path="wallet" element={<Wallet assets={mockWalletAssets} />} />
           <Route path="orders" element={<Orders orders={orders} onCancelOrder={handleCancelOrder} />} />
           <Route path="statement" element={<Statement transactions={mockTransactions} />} />
+          <Route path="deposit" element={<Deposit />} />
+          <Route path="withdraw" element={<Withdraw />} />
+
+          {/* Settings Routes */}
+          <Route path="settings" element={<Settings />}>
+            <Route index element={<Profile />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="kyc" element={<KYC />} />
+            <Route path="2fa" element={<TwoFactor />} />
+            <Route path="devices" element={<Devices />} />
+            <Route path="safe-word" element={<SafeWord />} />
+            <Route path="notifications" element={<Notifications />} />
+            <Route path="theme" element={<Theme />} />
+            <Route path="api-keys" element={<ApiKeys />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>

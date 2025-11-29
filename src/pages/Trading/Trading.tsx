@@ -5,6 +5,7 @@ import {
   OrderForm,
   OpenOrders,
   RecentTrades,
+  PairSelectorModal,
 } from '../../components';
 import { api, MockWebSocket } from '../../services/api';
 import {
@@ -29,6 +30,7 @@ export function Trading({ user }: TradingProps) {
   const [trades, setTrades] = useState<Trade[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showPairSelector, setShowPairSelector] = useState(false);
 
   useEffect(() => {
     const initializeData = async () => {
@@ -163,17 +165,15 @@ export function Trading({ user }: TradingProps) {
       <div className="trading-header">
         <div className="pair-selector">
           <span className="pair-label">PAR</span>
-          <select
+          <button
             className="pair-dropdown"
-            value={currentPair.symbol}
-            onChange={(e) => handlePairChange(e.target.value)}
+            onClick={() => setShowPairSelector(true)}
           >
-            {pairs.map((p) => (
-              <option key={p.symbol} value={p.symbol}>
-                {p.symbol}
-              </option>
-            ))}
-          </select>
+            <span>{currentPair.symbol}</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
         </div>
 
         <div className="price-info">
@@ -248,6 +248,21 @@ export function Trading({ user }: TradingProps) {
           </div>
         </div>
       </div>
+
+      <PairSelectorModal
+        isOpen={showPairSelector}
+        onClose={() => setShowPairSelector(false)}
+        pairs={pairs.map(p => ({
+          symbol: p.symbol,
+          base: p.base,
+          quote: p.quote,
+          lastPrice: p.lastPrice,
+          change24h: p.change24h,
+          volume24h: p.volume24h,
+        }))}
+        currentPair={currentPair.symbol}
+        onSelectPair={handlePairChange}
+      />
     </div>
   );
 }

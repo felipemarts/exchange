@@ -47,6 +47,7 @@ export interface User {
   name: string;
   email: string;
   balances: Record<string, number>;
+  kycLevel: number;
 }
 
 export type OrderSide = 'buy' | 'sell';

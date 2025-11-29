@@ -99,6 +99,7 @@ export const mockUser: User = {
     ETH: 5.0,
     USDT: 1000.00,
   },
+  kycLevel: 1,
 };
 
 export const mockOpenOrders: Order[] = [

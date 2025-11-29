@@ -65,21 +65,30 @@
     }
 
     .pair-dropdown {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
       background: transparent;
       border: none;
       color: var(--text-primary);
       font-weight: 600;
       font-size: 0.85rem;
       cursor: pointer;
-      padding: 0;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      transition: background 0.2s;
+
+      &:hover {
+        background: var(--bg-tertiary);
+      }
 
       &:focus {
         outline: none;
       }
 
-      option {
-        background: var(--bg-secondary);
-        color: var(--text-primary);
+      svg {
+        color: var(--text-secondary);
+        flex-shrink: 0;
       }
     }
   }

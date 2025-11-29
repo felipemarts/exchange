@@ -158,11 +158,11 @@
         transition: background 0.2s;
 
         &:nth-child(odd) {
-          background: #1a1a1a;
+          background: var(--table-row-odd);
         }
 
         &:nth-child(even) {
-          background: #242424;
+          background: var(--table-row-even);
         }
 
         &:hover {

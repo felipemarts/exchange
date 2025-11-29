@@ -5,3 +5,6 @@ export { OrderForm } from './OrderForm';
 export { OpenOrders } from './OpenOrders';
 export { RecentTrades } from './RecentTrades';
 export { Layout } from './Layout/Layout';
+export { NotificationDropdown } from './NotificationDropdown';
+export { UserMenu } from './UserMenu';
+export { PairSelectorModal } from './PairSelectorModal';
