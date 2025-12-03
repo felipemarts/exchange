@@ -30,19 +30,6 @@ export function KYC() {
     }
   };
 
-  const renderStatusBadge = () => {
-    switch (status) {
-      case 'pending':
-        return <span className="status-badge pending">Pendente</span>;
-      case 'in_review':
-        return <span className="status-badge review">Em análise</span>;
-      case 'approved':
-        return <span className="status-badge approved">Aprovado</span>;
-      case 'rejected':
-        return <span className="status-badge rejected">Rejeitado</span>;
-    }
-  };
-
   if (status === 'approved') {
     return (
       <div className="settings-section">

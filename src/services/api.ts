@@ -85,7 +85,7 @@ export const api = {
 // WebSocket simulation for real-time updates
 export class MockWebSocket {
   private callbacks: Map<string, ((data: unknown) => void)[]> = new Map();
-  private intervals: NodeJS.Timeout[] = [];
+  private intervals: ReturnType<typeof setInterval>[] = [];
   private currentPair: TradingPair;
 
   constructor(symbol: string) {

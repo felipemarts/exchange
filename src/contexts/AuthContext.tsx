@@ -38,7 +38,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const isAuthenticated = !!user;
 
-  const login = useCallback(async (email: string, password: string) => {
+  const login = useCallback(async (_email: string, _password: string) => {
     setIsLoading(true);
     try {
       // Simulated login - in production, this would call the API

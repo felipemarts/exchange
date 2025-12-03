@@ -75,7 +75,7 @@ function App() {
         <Route path="/recover" element={<Recover />} />
 
         {/* Main App Routes */}
-        <Route path="/app" element={<Layout user={user} />}>
+        <Route path="/app" element={<Layout />}>
           <Route index element={<Navigate to="/app/dashboard" replace />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="broker" element={<Trading user={user} />} />

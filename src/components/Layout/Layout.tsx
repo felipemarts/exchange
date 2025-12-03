@@ -3,11 +3,7 @@ import { NotificationDropdown } from '../NotificationDropdown';
 import { UserMenu } from '../UserMenu';
 import './Layout.scss';
 
-interface LayoutProps {
-  user: unknown;
-}
-
-export function Layout({ user }: LayoutProps) {
+export function Layout() {
   return (
     <div className="app-layout">
       <header className="app-header">

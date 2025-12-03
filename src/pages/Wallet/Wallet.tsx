@@ -9,7 +9,7 @@ interface WalletProps {
 
 export function Wallet({ assets }: WalletProps) {
   const navigate = useNavigate();
-  const [hideSmallBalances, setHideSmallBalances] = useState(false);
+  const [hideSmallBalances] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
   const filteredAssets = assets.filter((asset) => {

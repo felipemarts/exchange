@@ -20,7 +20,7 @@ export function SignUp() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
-  const [codeSent, setCodeSent] = useState(false);
+  const [, setCodeSent] = useState(false);
 
   const formatCPF = (value: string) => {
     const numbers = value.replace(/\D/g, '');
